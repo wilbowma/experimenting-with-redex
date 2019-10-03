@@ -103,7 +103,7 @@ elsewhere in the grammar, @rtech{variable-not-otherwise-mentioned}.
 
 This essentially equivalent to the the grammar from the Coq model in
 @seclink["sec:preface"], but also fixes a representation of variables, and
-defines the metafunction @racket[substitution] and the Racket
+defines the metafunction @racket[substitute] and the Racket
 @racket[alpha-equivalent?] for @tech{BoxyL}.
 
 Redex has a sophisticated formal pattern language, but in essense any symbols not
