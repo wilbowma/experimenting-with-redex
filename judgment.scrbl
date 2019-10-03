@@ -154,66 +154,6 @@ Shadowing is structural, as on paper; I don't need to worry about freshness or
 anything, since Redex "Does The Right Thing (TM)" when deconstructing a binder
 and putting it in the context.
 
-@;@examples[
-@;#:eval boxy-evalor
-@;(eval:alts
-@; (define-judgment-form BoxyTypingL
-@;  #:contract (∈ x A Γ)
-@;  #:mode (∈ I O I)
-@;
-@;  [----------------------- "Var"
-@;   (∈ x A (Γ (x : A)))]
-@;
-@;  [(∈ x_1 A Γ)
-@;   ----------------------- "Weaken"
-@;   (∈ (name x_1 x_!_1) A (Γ (x_!_1 : B)))])
-@; (begin
-@;   ; Working around Redex bug with ! patterns.
-@;   (define-metafunction BoxyTypingL
-@;     different : x x -> boolean
-@;     [(different x x) #f]
-@;     [(different x y) #t])
-@;
-@;   (define-judgment-form BoxyTypingL
-@;     #:contract (∈ x A Γ)
-@;     #:mode (∈ I O I)
-@;
-@;     [----------------------- "Var"
-@;      (∈ x A (Γ (x : A)))]
-@;
-@;     [(∈ x_1 A Γ)
-@;      (where #t (different x_1 x_2))
-@;      ----------------------- "Weaken"
-@;      (∈ x_1 A (Γ (x_2 : B)))])))
-@;]
-@;
-@;I define this judgment with the type in output position, so that I can easily
-@;define type inference as a judgment.
-@;Expressions in output position can still be provided manually as inputs.
-@;However, you may also give a pattern in the output position, and when you do,
-@;may refer to the pattern variable in an optional second argument to
-@;@racket[judgment-holds] to extract the pattern variables as output.
-@;
-@;@examples[
-@;#:eval boxy-evalor
-@;(judgment-holds (∈ x Nat (· (x : Nat))))
-@;(judgment-holds (∈ x A (· (x : Nat))) (term A))
-@;]
-@;
-@;Note that @racket[judgment-holds] returns a set of answers, since the judgment
-@;could be non-deterministic.
-@;
-@;In this judgment, I also use two special patterns: bang pattern
-@;and name patterns.
-@;Bang patterns are pattern suffixed with @code{_!_i}, for some @code{i}.
-@;A two bang patterns unify when the terms in that position are different.
-@;In this case, I require that @code{x_1} does not match the variable at the head
-@;of the environment.
-@;A name pattern can be used to give a single name to a larger pattern.
-@;In this case, I name the input variable @code{x_1}.
-@;This is because we cannot refer to bang patterns by name, since Redex wouldn't
-@;know which of the two non-equal terms I'm refering to.
-
 To define the type system, I usually give a well-moded algorithmic presentation
 that computes the type from the environment and the term.
 This means I usually need my syntax to be full annotated; conveniently, that is
@@ -311,7 +251,17 @@ Redex will either return the set of valid types, including the empty set if I
 asked for an output, or @racket[#f] if the judgment doesn't hold and I did not
 ask for any output.
 
-For modeless judgments I can manually build a derivation and Redex will check it.
+You can also ask Redex for the entire derivation, rather than just a "yes" or "no".
+
+@examples[
+#:eval boxy-evalor
+(build-derivations (type-infer · · (box 1) A))
+(build-derivations (type-infer · (· (x : Nat)) (box x) A))
+]
+
+@racket[build-derivations] will return the set of valid derivations.
+
+For modeless judgments, I can manually build a derivation and Redex will check it.
 Note that this @emph{only} works for modeless judgments.
 @margin-note{This might change soon, as it seems like a simple and useful change
 to check a derivation against a moded judgment.}
