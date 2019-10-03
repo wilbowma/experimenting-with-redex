@@ -142,9 +142,9 @@ Redex can also decompose a term by pattern matching.
 ]
 
 The structure returned by @racket[redex-match] is a little annoying to look at.
-Redex support non-deterministic matching, so we get back the set of all possible
+Redex supports non-deterministic matching, so we get back the set of all possible
 ways to match.
-The elements of the set are matchs, which contain lists of bindings of the
+The elements of the set are matches, which contain lists of bindings of the
 pattern variable to the term.
 
 I don't often use @racket[redex-match] directly for decomposing terms, because
@@ -272,7 +272,7 @@ invalid term, or a valid term that isn't what we expected.
 
 @examples[
 #:eval boxy-evalor
-(redex-match? BoxyL e (term (subtsitute (λ (y : Nat) (x e2)) x (+ y 5))))
+(redex-match? BoxyL e (term (substitute (λ (y : Nat) (x e2)) x (+ y 5))))
 (redex-match? BoxyL e (term (λ (y : nat) (x e2))))
 (redex-match? BoxyL e (term (kar (cons e_1 e_2))))
 ]
