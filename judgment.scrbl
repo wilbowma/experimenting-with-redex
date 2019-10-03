@@ -5,7 +5,7 @@
 The final piece of my model will be the judgments.
 Judgments encode all the properties I care about for my expressions and
 evaluation function.
-These includes judgments like program equivalence and well typedness.
+These include judgments like program equivalence and well typedness.
 Redex gives me the same inference rule notation I use on paper, and a spectrum
 of automagic computability for judgments.
 
@@ -14,8 +14,8 @@ After defining a judgment, Redex can:
 @item{decide whether a moded judgment holds}
 @item{compute the output positions of a moded judgment holds}
 @item{decide whether a derivation for a modeless judgment is valid}
-@item{build derivation of moded judgment for you}
-@item{generate terms satsifying a judgment}
+@item{build derivations of a moded judgment for you}
+@item{generate terms satisfying a judgment}
 ]
 
 @section{Judgment TLDR}
@@ -46,9 +46,9 @@ First, they can be frustrating to debug, since Redex only gives you a boolean
 value: whether the judgment holds or not.
 I normally resort to @racket[printf] debugging.
 The recent addition of modeless judgments provides a new avenue for debugging
-that seems promise, although I haven't used this approach in practice.
+that seems promising, although I haven't used this approach in practice.
 Second, ellipses and Racket escapes are a double-edged sword.
-While the making defining judgments much easier, they also prevent Redex from
+While they make defining judgments much easier, they also prevent Redex from
 generating terms that satisfy the judgment.
 
 @section{βη-equality for BoxyL}
@@ -140,7 +140,7 @@ easily lead to the symbols-interpreted-as-variables problem, but
 @margin-note{TODO: Add some trivial type-level computation to demo infer/check pattern.}
 
 The next judgments I define are the typing judgments.
-This usually require an extension to the language to define environments,
+This usually requires an extension to the language to define environments,
 syntactically.
 
 @examples[
@@ -644,7 +644,7 @@ still have good well-typed term generation.
 Other features also defeat derivation generation, notably escaping into Racket.
 This one can be harder to fix.
 If we're only escaping to Racket for natual number or booleans, we can encode
-the computation as an inductive data types in Redex.
+the computation as an inductive data type in Redex.
 
 When I cannot avoid ellipses or escaping, I will make due with generating terms
 from grammars and try to fix them up, for example, by initializing mutual
