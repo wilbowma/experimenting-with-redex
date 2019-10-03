@@ -429,7 +429,7 @@ values. @examples[
 (redex-check
  BoxyTypingL
  #:satisfying (type-infer · · e A)
- (redex-match? BoxyEvalL v (term (eval e)))
+ (redex-match? BoxyEvalL v (term (boxy-eval e)))
  #:attempts 1000)
 ]
 
@@ -593,7 +593,7 @@ still have good well-typed term generation.
 
 (redex-match? BoxyL e (term (λ* (x : Nat) (y : Nat) x)))
 (redex-match? BoxyL e (term (app (λ* (x : Nat) (y : Nat) x) 5 6)))
-(term (eval (app (λ* (x : Nat) (y : Nat) x) 5 6)))
+(term (boxy-eval (app (λ* (x : Nat) (y : Nat) x) 5 6)))
 ]
 
 Other features also defeat derivation generation, notably escaping into Racket.

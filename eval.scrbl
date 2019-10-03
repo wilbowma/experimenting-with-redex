@@ -138,8 +138,8 @@ Racket-land, and reduces boilerplate.
 @examples[
 #:eval boxy-evalor
 (define-metafunction BoxyL
-  eval : e -> v
-  [(eval e)
+  boxy-eval : e -> v
+  [(boxy-eval e)
    ,(car (apply-reduction-relation* ->cbv (term e)))])
 
 (define-metafunction BoxyL
@@ -147,7 +147,7 @@ Racket-land, and reduces boilerplate.
   [(normalize e)
    ,(car (apply-reduction-relation* ->* (term e)))])
 
-(term (eval (λ (x : Nat) (car (cons (+ 1 2) 2)))))
+(term (boxy-eval (λ (x : Nat) (car (cons (+ 1 2) 2)))))
 (term (normalize (λ (x : Nat) (car (cons (+ 1 2) 2)))))
 ]
 @section{A Caveat: Compatible Closure of Mutually Defined Relations}
