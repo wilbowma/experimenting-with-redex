@@ -139,8 +139,6 @@ easily lead to the symbols-interpreted-as-variables problem, but
 ]
 
 @section{Typing for BoxyL}
-@margin-note{TODO: Add some trivial type-level computation to demo infer/check pattern.}
-
 The next judgments I define are the typing judgments.
 This usually requires an extension to the language to define environments,
 syntactically.
