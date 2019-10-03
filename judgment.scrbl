@@ -264,21 +264,21 @@ frankly they're hard to use and read.
   [(type-infer Δ Γ e_1 A)
    (type-infer Δ Γ e_2 B)
    -------------------------- "T-Cons"
-   (type-infer Δ Γ (cons e_1 e_2) (× A B))]
+   (type-infer Δ Γ (cons e_1 e_2) (A × B))]
 
-  [(type-infer Δ Γ e (× A B))
+  [(type-infer Δ Γ e (A × B))
    -------------------------- "T-Car"
    (type-infer Δ Γ (car e) A)]
 
-  [(type-infer Δ Γ e (× A B))
+  [(type-infer Δ Γ e (A × B))
    -------------------------- "T-Cdr"
    (type-infer Δ Γ (cdr e) B)]
 
   [(type-infer Δ (Γ (x : A)) e B)
    -------------------------- "T-Fun"
-   (type-infer Δ Γ (λ (x : A) e) (→ A B))]
+   (type-infer Δ Γ (λ (x : A) e) (A → B))]
 
-  [(type-infer Δ Γ e_1 (→ A B))
+  [(type-infer Δ Γ e_1 (A → B))
    (type-infer Δ Γ e_2 A)
    -------------------------- "T-App"
    (type-infer Δ Γ (e_1 e_2) B)]
@@ -367,13 +367,13 @@ identical but with the @racket[#:mode] line removed.
   [(type Δ Γ e_1 A)
    (type Δ Γ e_2 B)
    -------------------------- "T-Cons"
-   (type Δ Γ (cons e_1 e_2) (× A B))]
+   (type Δ Γ (cons e_1 e_2) (A × B))]
 
-  [(type Δ Γ e (× A B))
+  [(type Δ Γ e (A × B))
    -------------------------- "T-Car"
    (type Δ Γ (car e) A)]
 
-  [(type Δ Γ e (× A B))
+  [(type Δ Γ e (A × B))
    -------------------------- "T-Cdr"
    (type Δ Γ (cdr e) B)]
 
@@ -381,7 +381,7 @@ identical but with the @racket[#:mode] line removed.
    -------------------------- "T-Fun"
    (type Δ Γ (λ (x : A) e) (→ A B))]
 
-  [(type Δ Γ e_1 (→ A B))
+  [(type Δ Γ e_1 (A → B))
    (type Δ Γ e_2 A)
    -------------------------- "T-App"
    (type Δ Γ (e_1 e_2) B)]

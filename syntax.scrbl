@@ -64,7 +64,7 @@ As a convention, I usually end my language names with the letter "L".
 (define-language BoxyL
   (e ::= x natural (+ e e) (cons e e) (car e) (cdr e) (λ (x : A) e) (e e)
          (box e) (let ((box y) e) e))
-  (A B ::= Nat (× A B) (→ A B) (□ A))
+  (A B ::= Nat (A × B) (A → B) (□ A))
   (x y ::= variable-not-otherwise-mentioned)
   (v ::= natural (box e) (λ (x : A) e) (cons v v))
 
@@ -98,8 +98,9 @@ This language defines expression using meta-variable @redex{e}, which includes
 variables @redex{x}, natural numbers, cons pairs, λ, application, the box
 introduction form, and a pattern matching form for box elimination.
 It also define their types, as meta-variables @redex{A} and @redex{B}.
-Variables, @redex{x} and @redex{y}, are any symbol not used as a keyword
-elsewhere in the grammar, @rtech{variable-not-otherwise-mentioned}.
+Note that while productions need to be s-expressions, they need not be prefix.
+Variables, @redex{x} and @redex{y}, are any symbol not used as a keyword or
+literal elsewhere in the grammar, @rtech{variable-not-otherwise-mentioned}.
 
 This essentially equivalent to the the grammar from the Coq model in
 @seclink["sec:preface"], but also fixes a representation of variables, and
