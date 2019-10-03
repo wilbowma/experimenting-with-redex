@@ -60,6 +60,7 @@ In Redex, we start defining the syntax of a language with the
 @racket[define-language] form.
 Below is the syntax for the lanugage @deftech{BoxyL}, the simply-typed λ-calculus
 with the box modality.
+@margin-note{Frank Pfenning and Rowan Davies. A judgmental reconstruction of modal logic. 2001. @url{https://doi.org/10.1017/s0960129501003322}.}
 As a convention, I usually end my language names with the letter "L".
 @examples[
 #:eval boxy-evalor
