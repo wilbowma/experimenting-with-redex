@@ -4,9 +4,9 @@
 @title[#:tag "sec:eval"]{Reduction and Evaluation in Redex}
 After specifying my language syntax, I define reduction, normalization, and
 evaluation.
-Once I define the reduction relation, Redex can gives me a nondeterministic
+Once I define the reduction relation, Redex gives me a nondeterministic
 interpreter.
-Redex makes this extremely easy.
+Redex makes this extremely easy:
 I can give the small-step reductions, and Redex will compute for me the
 compatible closure automatically, giving me a normalization relation.
 If I need a specific reduction strategy, I can define the evaluation contexts
@@ -32,17 +32,17 @@ normal form of the given reduction relation.
 When I need a specific reduction strategy, I manually define evaluation contexts
 as syntax, as in the previous section, and use @racket[context-closure].
 Since @racket[apply-reduction-relation*] is a Racket function, I usually define
-metafunctions using @racket[define-metafunction] to easily call the reduciton
+metafunctions using @racket[define-metafunction] to easily call the reduction
 and normalization relations from Redex.
 
-There is one common pitfall I run in to: full reduction for mutually defined
+There is one common pitfall I run into: full reduction for mutually defined
 syntax.
 If expressions and values are mutually defined, for example, then
 @racket[compatible-closure] will not compute the correct relation.
 In this case, we must manually give the mutually defined contexts for which we
 @racket[context-closure] should compute the closure of a relation.
 Thankfully, Redex exposes the function @rtech{compatible-closure-context} for
-computing contexts common contexts.
+computing common contexts.
 In most cases I encounter, Redex can easily compute the various mutual contexts
 with a couple of calls to @rtech{compatible-closure-context}, and then give my
 the full reduction relation using @racket[context-closure].
@@ -77,7 +77,7 @@ Below, I define the small-step reduction for @tech{BoxyL}.
 
 Unlike @racket[define-language], @racket[reduction-relation] creates a
 @emph{Racket} value.
-This means we need to bind it to an identifiers using Racket's @racket[define].
+This means we need to bind it to an identifier using Racket's @racket[define].
 It also means we have to be in Racket-land when using the reduction relation.
 
 To run the reduction, I use @racket[apply-reduction-relation] to take a single
@@ -130,9 +130,9 @@ with respect to that context via @racket[context-closure].
 (apply-reduction-relation* ->cbv (term (λ (x : Nat) (car (cons (+ 1 2) 2)))))
 ]
 
-When I have deterministic semantics, I define a metafunctions that let me use a
+When I have a deterministic semantics, I define metafunctions that let me use a
 reduction relation under @racket[term].
-This help me easily use reduction relations in Redex-land rather than
+This helps me easily use reduction relations in Redex-land rather than
 Racket-land, and reduces boilerplate.
 
 @examples[
@@ -204,7 +204,7 @@ code:blank
 
 The problem is that @racket[compatible-closure] is automatically computing a
 context.
-However, it's default mode of computing the context does not work for mutually
+However, its default mode of computing the context does not work for mutually
 defined nonterminals.
 
 To properly define the full reduction relation for this language, we need to use
