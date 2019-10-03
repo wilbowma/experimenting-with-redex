@@ -55,7 +55,7 @@ This is made worse since TeX input mode will transparently replace the second
 expression with the first.
 DrRacket has better LaTeX input that avoids this problem by default.
 
-@section{Experimenting with the Syntax of BoxyL}
+@section{The Syntax of BoxyL}
 In Redex, we start defining the syntax of a language with the
 @racket[define-language] form.
 Below is the syntax for the lanugage @deftech{BoxyL}, the simply-typed λ-calculus
