@@ -53,6 +53,7 @@ Unicode subscripts are different than a nonterminal followed by an underscore,
 variable.
 This is made worse since TeX input mode will transparently replace the second
 expression with the first.
+DrRacket has better LaTeX input that avoids this problem by default.
 
 @section{Experimenting with the Syntax of BoxyL}
 In Redex, we start defining the syntax of a language with the
@@ -132,6 +133,18 @@ This is helpful particularly with large complex languages, or low-level
 languages with detailed machine configurations.
 In these kinds of languages, its common to restrict syntax to achieve various
 properties, and may be non-obvious whether a term is valid.
+
+Note that keywords and literal symbols from the grammar are not variables, but
+anything else is.
+
+@examples[
+#:eval boxy-evalor
+(redex-match? BoxyL x (term car))
+(redex-match? BoxyL x (term λ))
+(redex-match? BoxyL x (term :))
+(redex-match? BoxyL x (term kar))
+(redex-match? BoxyL x (term lambda))
+]
 
 When in Racket, we use @racket[term] to inject syntax into Redex.
 @racket[term] acts like @racket[quasiquote], and even supports unquote so we can
