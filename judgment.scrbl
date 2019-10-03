@@ -549,6 +549,9 @@ trace Redex's search and see where it stops.
 (judgment-holds (type-debug · · (+ 5 (car (cons 5 1))) Nat))
 ]
 
+Now we know that the sub-derivation that failed is the second premise of the
+@racket["Plus"] rule.
+
 Recently, Redex added support for unmoded judgments and the ability to manually
 specify a derivation, and check whether it is valid.
 I have yet to use this feature, but I imagine it will make debugging judgment
