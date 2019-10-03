@@ -29,10 +29,10 @@ because then I have to remember too many language identifiers.
 I use @racket[redex-match?], @racket[redex-match], and @racket[redex-let] to
 test that expressions match nonterminals and to let Redex decompose syntax
 for me.
-With @racket[#:binding-forms], I get capture-avoiding substitution
-(@racket[substitute]), and α-equivalence (@racket[alpha-equivalent?]), for free
-while retaining named identifiers rather than annoying representations such as
-de Bruijn.
+With @racket[#:binding-forms] (@rtech{binding forms}), I get capture-avoiding
+substitution (@racket[substitute]), and α-equivalence
+(@racket[alpha-equivalent?]), for free while retaining named identifiers rather
+than annoying representations such as de Bruijn.
 
 There are two common pitfalls to avoid when working with syntax in Redex.
 
@@ -82,6 +82,17 @@ some functions to specify which grammar and binding specification to use,
 and BNF-esque grammar, in s-expression notation.
 After the grammar, I give a binding specification, from which Redex infers
 definitions of substitution and α-equivalence.
+
+@nested[#:style 'inset]{
+@subsubsub*section{Binding Forms Digression}
+My favorite feature of Redex is automatic handling of named binders.
+In this tutorial, I give only the simplest possible use of
+@rtech{binding forms}: a single, lexical name.
+But Redex's support for binding is extremely sophisticated.
+It can support n-ary lexical binding with shadowing, pattern-matching style
+binding, module-style binding.
+See @rtech{binding forms} in the Redex docs to the many examples of complex binding support.
+}
 
 This language defines expression using meta-variable @redex{e}, which includes
 variables @redex{x}, natural numbers, cons pairs, λ, application, the box
