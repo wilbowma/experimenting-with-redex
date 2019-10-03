@@ -585,9 +585,9 @@ failures somewhat easier.
         (begin
           (for ([d ls])
             (unless (derivation-checker f d)
-              (error 'check-derivation "sub-derivation a ~a failed!" d)))
+              (error 'check-derivation "sub-derivation ~a failed!" d)))
           (unless (f d)
-            (error 'check-derivation "sub-derivation a ~a failed!" d))))))
+            (error 'check-derivation "sub-derivation ~a failed!" d))))))
 
 (define proof
   (derivation
@@ -600,12 +600,14 @@ failures somewhat easier.
 (judgment-holds type-debug^ proof)
 
 (eval:error (check-derivation type-debug^ proof))
-(eval:error (check-derivation type-debug^ (derivation
-                                           `(type-debug^ · · (+ 5 (car (cons 5 1))))
-                                           "Plus"
-                                           (list
-                                            (derivation `(type-debug^ · · 5 Nat) "Nat"  '())
-                                            (derivation `(type-debug^ · · (car (cons 5 1)) Nat) "Nat" '())))))
+(eval:error (check-derivation
+             type-debug^
+             (derivation
+              `(type-debug^ · · (+ 5 (car (cons 5 1))))
+              "Plus"
+              (list
+               (derivation `(type-debug^ · · 5 Nat) "Nat"  '())
+               (derivation `(type-debug^ · · (car (cons 5 1)) Nat) "Nat" '())))))
 ]
 @margin-note{@racket[check-derivation] may get merged in to Redex soon.}
 
