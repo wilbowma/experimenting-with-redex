@@ -44,6 +44,8 @@ make to get typos interpreted as variables.
 This can cause very unexpected failures.
 Apparently valid matches will not fail to match and metafunctions can have
 undefined behavior.
+One way to help avoid this problem is to tag variables, either in the grammar or
+with a symbolic prefix using @rtech{variable-prefix}.
 
 Second, avoid unicode subscripts, and be careful with TeX input mode.
 Unicode subscripts are different than a nonterminal followed by an underscore,
