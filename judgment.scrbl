@@ -18,6 +18,8 @@ After defining a judgment, Redex can:
 @item{generate terms satisfying a judgment}
 ]
 
+@margin-note{Redex uses the American spelling of @emph{judgment}.}
+
 @section{Judgment TLDR}
 I define judgments using @racket[define-judgment-form].
 This form allows me to specify the judgment in a relation presentation, and use
