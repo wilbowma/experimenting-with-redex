@@ -261,8 +261,10 @@ You can also ask Redex for the entire derivation, rather than just a "yes" or "n
 
 @racket[build-derivations] will return the set of valid derivations.
 
-For modeless judgments, I can manually build a derivation and Redex will check it.
-Note that this @emph{only} works for modeless judgments.
+For modeless judgments, I can manually build a derivation and use
+@racket[judgment-holds] to check that the derivation is valid.
+Note that this @emph{only} works for modeless judgments; I show a simple
+workaround to do this for moded judgments shortly.
 @margin-note{This might change soon, as it seems like a simple and useful change
 to check a derivation against a moded judgment.}
 In the example below, I define a modeless version of @racket[type-infer] that is
@@ -368,6 +370,40 @@ identical but with the @racket[#:mode] line removed.
     `(type (· (x : Nat)) · x Nat)
     "T-VarGlobal"
     (list)))))
+]
+
+We can emulate the behavior for moded judgments, by comparing against the
+set of derivations given by @racket[build-derivations].
+@examples[
+#:eval boxy-evalor
+(require racket/set)
+(define (check-moded-derivation d)
+  (set-member?
+   ; Sometimes you just need an awful hack
+   (eval `(build-derivations ,(derivation-term d)))
+   d))
+
+(set-member?
+ (build-derivations (type-infer (· (x : Nat)) · (box x) (□ Nat)))
+ (derivation
+  `(type-infer (· (x : Nat)) · (box x) (□ Nat))
+  "T-Box"
+  (list
+   (derivation
+    `(type-infer (· (x : Nat)) · x Nat)
+    "T-VarGlobal"
+    (list)))))
+
+(check-moded-derivation
+ (derivation
+  `(type-infer (· (x : Nat)) · (box x) (□ Nat))
+  "T-Box"
+  (list
+   (derivation
+    `(type-infer (· (x : Nat)) · x Nat)
+    "T-VarGlobal"
+    (list))))
+ )
 ]
 
 In more complex language models, I will define separate @racket[type-infer] and
