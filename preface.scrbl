@@ -41,7 +41,7 @@ about "no".
 The second piece I build is the reduction system and evaluation function so I
 can compute with expressions.
 I may have some type system in mind, but I will usually build it after I have an
-evaluation function, but I the way I want terms to evaluate may guide changes to
+evaluation function, but the way I want terms to evaluate may guide changes to
 the type system.
 When working with reduction and evaluation, I want to ask questions like:
 @itemize[

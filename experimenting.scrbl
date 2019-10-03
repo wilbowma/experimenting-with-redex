@@ -10,8 +10,8 @@ I also explain some of my useful conventions and patterns, common problems I run
 into in Redex, and tricks to avoid problems as best I can.
 
 This tutorial is aimed at programming languages researchers who understand
-programming languages formalism, but want to understand how to use Redex to
-as an assistant in exploring their formalism.
+programming languages formalism, but want to understand how to use Redex
+as an assistant in exploring formal models.
 I explain Redex in context, by example.
 I primarily focus on how I use it to work, and leave most details of Redex forms
 to the Redex documentation.
