@@ -118,7 +118,7 @@ Inductive BoxyValue : BoxyTerm -> Prop :=
 
 This defines the syntax for a simply-typed λ-calculus with the box modality in
 Coq.
-@margin-note{Frank Pfenning and Rowan Davies. A judgmental reconstruction of modal logic. 2001. @url{https://doi.org/10.1017/s0960129501003322}.}
+
 It leaves the type @code{Var} of variables abstract, for reasons anyone
 familiar with modeling languages in Coq will understand.
 

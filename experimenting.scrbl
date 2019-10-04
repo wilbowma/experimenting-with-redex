@@ -16,6 +16,10 @@ I explain Redex in context, by example.
 I primarily focus on how I use it to work, and leave most details of Redex forms
 to the Redex documentation.
 
+I will use the simply-typed λ-calculus with box modality as a running example,
+because I happen to be studying this calculus at the time of writing.
+@margin-note{Frank Pfenning and Rowan Davies. A judgmental reconstruction of modal logic. 2001. @url{https://doi.org/10.1017/s0960129501003322}.}
+
 @(table-of-contents)
 @include-section{preface.scrbl}
 @include-section{syntax.scrbl}
