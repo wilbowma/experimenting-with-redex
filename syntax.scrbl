@@ -35,6 +35,10 @@ query whether expressions match nonterminals and to let Redex decompose syntax
 for me.
 I use @racket[test-predicate], @racket[test-equal], @racket[default-equiv], and
 @racket[test-results] for writing test suites about syntax.
+
+One caveat to be aware of is that grammars with @rtech{side conditions}, while
+very expressions, prevent @racket[redex-check] from working over the grammar.
+
 There are two common pitfalls to avoid when working with syntax in Redex.
 
 First, be careful about using untagged, arbtirary variables, such as by using
@@ -281,27 +285,6 @@ size.
 It can generate terms based on lots of Redex definitions, although I almost
 always generate terms from grammars and judgments.
 
-@section{Syntax with Side Conditions}
-The Redex pattern language is very expressive, and one quite nice feature that
-is hard to find in the documentation is using @rtech{side-conditions} in
-grammar.
-I use this occassionally, particularly when modeling machine languages.
-For example, below I define a syntax with 64-bit integers.
-@examples[
-#:eval boxy-evalor
-(define-language Int64L
-  (int64 ::= (side-condition integer_1
-               (<= (expt -2 31) (term integer_1) (sub1 (expt 2 31))))))
-
-(redex-match? Int64L int64 4)
-(redex-match? Int64L int64 -5)
-(redex-match? Int64L int64 (expt 2 31))
-]
-
-The @rtech{side-condition} takes a pattern and a Racket predicate which can
-refer to the pattern variables.
-You can use a @rtech{side-condition} pattern anywhere in a pattern.
-
 @section{Testing Syntax}
 Once we're done querying, we can move to testing.
 Redex features a unit testing library.
@@ -350,7 +333,32 @@ For example, all values ought to be expressions.
 When generating syntax, @racket[redex-check] takes a language identifier, a
 pattern, a predicate, and (optionally), the number of attempts.
 
-@section{A Pitfall: All Symbols are Variables}
+@section{Caveat: Syntax with Side Conditions}
+The Redex pattern language is very expressive, and one quite nice feature that
+is hard to find in the documentation is using @rtech{side-conditions} in
+grammar.
+I use this occassionally, particularly when modeling machine languages.
+For example, below I define a syntax with 64-bit integers.
+@examples[
+#:eval boxy-evalor
+(define-language Int64L
+  (int64 ::= (side-condition integer_1
+                             (<= (expt -2 31) (term integer_1) (sub1 (expt 2 31))))))
+
+(redex-match? Int64L int64 4)
+(redex-match? Int64L int64 -5)
+(redex-match? Int64L int64 (expt 2 31))
+]
+
+The @rtech{side-condition} takes a pattern and a Racket predicate which can
+refer to the pattern variables.
+You can use a @rtech{side-condition} pattern anywhere in a pattern.
+
+Unfortunately, using @rtech{side-conditions} in patterns does not work with
+@racket[redex-check].
+You can still use @racket[generate-term], though.
+
+@section{Pitfall: All Symbols are Variables}
 In a couple of the examples above, I rely on an anti-pattern.
 I @emph{pun} between a real expression and an expression schema, by punning
 between variables and meta-variables.
