@@ -56,8 +56,8 @@ with a symbolic prefix using @rtech{variable-prefix}.
 
 Second, avoid unicode subscripts, and be careful with TeX input mode.
 Unicode subscripts are different than a nonterminal followed by an underscore,
-@emph{i.e.}, @racket[any₁] is a symbol while @racket[any_1] is a pattern
-variable.
+@emph{i.e.}, @redex{any₁} is a symbol while @redex{any_1} is a pattern
+variable matching an @rtech{any} pattern.
 This is made worse since TeX input mode will transparently replace the second
 expression with the first.
 DrRacket has better LaTeX input that avoids this problem by default.
@@ -143,7 +143,7 @@ anything else is.
 (redex-match? BoxyL x (term lambda))
 ]
 
-One of the important built-in pattersn that I use frequently is @racket[any],
+One of the important built-in pattersn that I use frequently is @rtech{any},
 which matches any s-expression.
 @examples[
 #:eval boxy-evalor
@@ -153,10 +153,10 @@ which matches any s-expression.
 (redex-match? BoxyL any (term :))
 ]
 
-The @racket[any] pattern can be useful for defining generic metafunctions,
+The @rtech{any} pattern can be useful for defining generic metafunctions,
 grammars, and judgments, or to partially specify contracts on Redex definitions.
 In large developments, I sometimes create a base language with generic
-operations on syntax, using @racket[any].
+operations on syntax, using @rtech{any}.
 
 When in Racket, we use @racket[term] to inject syntax into Redex.
 @racket[term] acts like @racket[quasiquote], and even supports unquote so we can
