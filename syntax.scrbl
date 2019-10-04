@@ -1,7 +1,7 @@
 #lang scribble/manual
 @(require "lib.rkt")
 
-@title[#:tag "sec:syntax"]{Expressions in Redex}
+@title[#:tag "sec:syntax"]{Syntax in Redex}
 The first part of my language model is defining the collection expressions in my
 language.
 This includes the expressions of my language, the types, and the data.
