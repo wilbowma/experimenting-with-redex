@@ -23,17 +23,18 @@ After I have defined a syntax, Redex can do the following things for me:
 @section{Syntax TLDR}
 In short, Redex makes defining and working with syntax damn simple.
 I use @racket[define-language] to create BNF grammars.
-Using @racket[define-extended-language], I can easily extend existing languages,
-which can make it easy to modularize grammars; although, I usually avoid it
-because then I have to remember too many language identifiers.
-I use @racket[redex-match?], @racket[redex-match], and @racket[redex-let] to
-test that expressions match nonterminals and to let Redex decompose syntax
-for me.
 With @racket[#:binding-forms] (@rtech{binding forms}), I get capture-avoiding
 substitution (@racket[substitute]), and α-equivalence
 (@racket[alpha-equivalent?]), for free while retaining named identifiers rather
 than annoying representations such as de Bruijn.
-
+Using @racket[define-extended-language], I can easily extend existing languages,
+which can make it easy to modularize grammars; although, I usually avoid it
+because then I have to remember too many language identifiers.
+I use @racket[redex-match?], @racket[redex-match], and @racket[redex-let] to
+query whether expressions match nonterminals and to let Redex decompose syntax
+for me.
+I use @racket[test-predicate], @racket[test-equal], @racket[default-equiv], and
+@racket[test-results] for writing test suites about syntax.
 There are two common pitfalls to avoid when working with syntax in Redex.
 
 First, be careful about using untagged, arbtirary variables, such as by using
@@ -244,6 +245,54 @@ an-e2
 size.
 It can generate terms based on lots of Redex definitions, although I almost
 always generate terms from grammars and judgments.
+
+@section{Testing Syntax}
+Once we're done querying, we can move to testing.
+Redex features a unit testing library.
+Tests are great for detecting breakages as you start tinkering with your model,
+and can also report more information that the mostly-boolean query functions.
+
+Redex, unfortunately, doesn't have a test function for patterns.
+Instead, we have to use @racket[test-predicate] and @racket[redex-match?].
+@examples[
+#:eval boxy-evalor
+(default-language BoxyL)
+(test-predicate (redex-match? BoxyL e) (term (car (+ 1 2))))
+(test-predicate (redex-match? BoxyL x) (term kar))
+(test-predicate (redex-match? BoxyL x) (term car))
+(test-results)
+]
+@margin-note{This pattern is hard to abstract over since @racket[redex-match?]
+expects a language identifier.}
+
+For testing equality of terms, we can use @racket[test-equal].
+@examples[
+#:eval boxy-evalor
+(test-equal (term (λ (x : Nat) y))  (term (λ (y : Nat) y))
+            #:equiv alpha-equivalent?)
+(default-equiv alpha-equivalent?)
+(test-equal (term (λ (x : Nat) x))  (term (λ (y : Nat) y)))
+(test-equal (term (substitute (λ (y : Nat) (x e2)) x (+ y 5)))
+            (term (λ (z : Nat) ((+ y 5) e2))))
+(test-results)
+]
+@racket[test-equal] takes two expressions, and optionally, an equivalence
+predicate.
+The equivalence defaults to the value of the parameter @racket[default-equiv].
+
+We can use @racket[redex-check] to do random testing of syntactic properties.
+For example, all values ought to be expressions.
+@examples[
+#:eval boxy-evalor
+(redex-check
+ BoxyL
+ v
+ (redex-match? BoxyL e (term v))
+ #:attempts 1000)
+]
+
+When generating syntax, @racket[redex-check] takes a language identifier, a
+pattern, a predicate, and (optionally), the number of attempts.
 
 @section{A Pitfall: All Symbols are Variables}
 In a couple of the examples above, I rely on an anti-pattern.

@@ -32,10 +32,17 @@ automatically compute the terms in output position from the terms I provide in
 input positions.
 I use @racket[judgment-holds] to ask Redex whether a judgment holds, and to
 compute the output of judgments.
-For modeless judgments, I can manually build derivations and ask whether the
-derivation is valid.
+I use @racket[build-derivations] to have Redex automatically build derivations
+for moded judgments.
+For modeless judgments, I can manually build derivations using
+@racket[derivation] and ask whether the derivation is valid using
+@racket[judgment-holds].
 This can be extremely useful for teaching, checking intuition, and debugging
 judgments.
+
+For testing, I can use @racket[test-judgment-holds] to test a judgment.
+Usually, I want to test meta-theoretic properties of judgments by using
+@racket[redex-check].
 
 A common pitfall is to use the wrong language name when defining a judgment.
 The result is the judgment silently failing to hold, even when you think it
@@ -428,7 +435,34 @@ I define the @racket[type-check] via a single rule that appeals to the
 (judgment-holds (type-check · · (box 5) (□ Nat)))
 ]
 
-@section{Meta-theory Testing for BoxyL}
+@section{Testing Judgments}
+After we move to testing judgments, we can use @racket[test-judgment-holds].
+@examples[
+#:eval boxy-evalor
+(test-judgment-holds (type-check · · (box 5) (□ Nat)))
+(test-judgment-holds type (derivation
+                           `(type · · (box 5) (□ Nat))
+                           "T-Box"
+                           (list
+                            (derivation
+                             `(type · · 5 Nat)
+                             "T-Nat"
+                             (list)))))
+(test-judgment-holds type (derivation
+                           `(type · · (box 5) (□ Nat))
+                           "T-Box"
+                           (list)))
+(test-results)
+]
+
+@racket[test-judgment-holds] has two different interfaces: one for moded
+judgments, and one for modeless judgments.
+Unfortunately, there is no built-in way to check judgments for moded judgments.
+
+@margin-note{Below, I define @racket[test-derivation], and am working on merging
+it into Redex.}
+
+@section{Random Generation of Derivations and Meta-theory Random-testing}
 After I have some judgments, I can start generating terms from judgments.
 For example, we can generate well-typed terms.
 @examples[

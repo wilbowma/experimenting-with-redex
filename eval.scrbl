@@ -26,14 +26,17 @@ After defining a reduction relation, Redex can do the following for me:
 In short, I define the small-step reductions using @racket[reduction-relation].
 I usually define the full reduction using @racket[compatible-closure], which in
 1 line of code extends the small-step relation to apply under any context.
-I use @racket[apply-reduction-relation] to apply a reduction relation a single
-step, and @racket[apply-reduction-relation*] to reduce an expression to the
-normal form of the given reduction relation.
 When I need a specific reduction strategy, I manually define evaluation contexts
 as syntax, as in the previous section, and use @racket[context-closure].
+For querying Redex reduction relations, I use @racket[apply-reduction-relation]
+to apply a reduction relation a single step, and
+@racket[apply-reduction-relation*] to reduce an expression to the normal form of
+the given reduction relation.
 Since @racket[apply-reduction-relation*] is a Racket function, I usually define
 metafunctions using @racket[define-metafunction] to easily call the reduction
 and normalization relations from Redex.
+For testing reduction relations, I use @racket[test-->], @racket[test-->>], and
+@racket[test-->>∃].
 
 There is one common pitfall I run into: full reduction for mutually defined
 syntax.
@@ -150,6 +153,56 @@ Racket-land, and reduces boilerplate.
 (term (boxy-eval (λ (x : Nat) (car (cons (+ 1 2) 2)))))
 (term (normalize (λ (x : Nat) (car (cons (+ 1 2) 2)))))
 ]
+
+@section{Testing Reduction Relations}
+Redex provides a handful of test functions for reduction relations.
+I use @racket[test-->] to test single steps of reduction.
+@examples[
+#:eval boxy-evalor
+(test--> -> (term (+ 1 2)) (term 3))
+(test--> -> #:equiv alpha-equivalent?
+         (term ((λ (x : Nat) (λ (y : Nat) y)) 1))
+         (term (λ (z : Nat) z)))
+(test-results)
+]
+This takes the name of the relation, followed by an optional equivalence
+predicate, and two terms.
+It checks that the first term steps in one step of the relation to the second.
+
+I use @racket[test-->>] to test arbitrary number of steps of reduction, which
+has essentially the same interface.
+@examples[
+#:eval boxy-evalor
+(test-->> ->* #:equiv alpha-equivalent?
+          (term (λ (x : Nat) (car (cons (+ 1 2) 2))))
+          (term (λ (z : Nat) 3)))
+(test-results)
+]
+
+I use @racket[test-->>∃] (or @racket[test-->>E]) to test that there exists a way
+to reduce a term to another term.
+@examples[
+#:eval boxy-evalor
+(test-->>∃ ->*
+          (term (λ (x : Nat) (car (cons (+ 1 2) 2))))
+          (term (λ (x : Nat) (car (cons 3 2)))))
+(test-->>∃ #:steps 1 ->*
+         (term (λ (x : Nat) (car (cons (+ 1 2) 2))))
+         (term (λ (x : Nat) (car (cons 3 2)))))
+(test-->>∃ #:steps 1 ->*
+           (term (λ (x : Nat) (car (cons (+ 1 2) 2))))
+           (term (λ (x : Nat) 3)))
+(test-->>∃ #:steps 2 ->*
+           (term (λ (x : Nat) (car (cons (+ 1 2) 2))))
+           (lambda (x)
+             (alpha-equivalent? x (term (λ (z : Nat) 3)))))
+(test-results)
+]
+Unlike the other test functions, @racket[test-->>∃] does not take an
+@racket[#:equiv] optional parameter, and doesn't obey @racket[default-equiv].
+Instead, the second term can be either a value or a predicate.
+@margin-note{This may change soon because I'm about to file a pull request.}
+
 @section{A Caveat: Compatible Closure of Mutually Defined Relations}
 The @racket[compatible-closure] functions doesn't work when we have expressions whose
 syntax is mutually defined, since @racket[compatible-closure] requires a single
