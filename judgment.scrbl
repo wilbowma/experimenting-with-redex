@@ -105,8 +105,12 @@ language, including metafunctions, in any output.
 (Recall that input and output flips in premises; inputs become term positions
 and outputs become pattern positions.)
 You can use any other judgment directly as a premise.
-For non-judgment side-conditions, I frequently use @racket[where] and
-use @racket[side-condition] sparingly.
+For non-judgment side-conditions, I frequently use @rtech{where clauses} and use
+@rtech{side-condition} sparingly.
+Note that @rtech{side-conditions} in judgment forms are Redex terms, and
+@racket[unquote] to use Racket expressions.
+This is unlike @rtech{side-conditions} in grammar, which are Racket expressions and
+must quote using @racket[term] to use Redex terms.
 
 We use the Racket function @racket[judgment-holds] to ask whether a well-moded
 judgment holds for particular inputs.
