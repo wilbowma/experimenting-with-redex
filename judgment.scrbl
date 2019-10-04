@@ -276,12 +276,12 @@ identical but with the @racket[#:mode] line removed.
   #:contract (type Δ Γ e A)
 
   [------------------------------- "T-VarLocal"
-   (type-infer Δ (Γ (x : A)) x A)]
+   (type Δ (Γ (x : A)) x A)]
 
-  [(type-infer Δ Γ x_1 A)
+  [(type Δ Γ x_1 A)
    (where #t (different x_1 x_2))
    ------------------------------- "T-VarLocalWeak"
-   (type-infer Δ (Γ (x_2 : B)) x_1 A)]
+   (type Δ (Γ (x_2 : B)) x_1 A)]
 
   ...
 
@@ -394,6 +394,12 @@ set of derivations given by @racket[build-derivations].
     "T-VarGlobal"
     (list)))))
 
+(define (check-moded-derivation d)
+  (set-member?
+   (code:comment "Sometimes you just need an eval")
+   (eval `(build-derivations ,(derivation-term d)))
+   d))
+
 (check-moded-derivation
  (derivation
   `(type-infer (· (x : Nat)) · (box x) (□ Nat))
@@ -402,8 +408,7 @@ set of derivations given by @racket[build-derivations].
    (derivation
     `(type-infer (· (x : Nat)) · x Nat)
     "T-VarGlobal"
-    (list))))
- )
+    (list)))))
 ]
 
 In more complex language models, I will define separate @racket[type-infer] and
@@ -442,25 +447,22 @@ For example, we can generate well-typed terms.
  '(type-infer · · 1 Nat))
 ]
 This can let me do random-testing of meta-theoretic properties.
-
-In BoxyL, one simple property that ought to hold is that all well-typed values
-of type @redex{(□ A)} ought to be well-typed in the empty local environment.
+@;
+@; TODO Bug in Redex
+@;In BoxyL, one simple property that ought to hold is that all well-typed values
+@;of type @redex{(□ A)} ought to be well-typed in the empty local environment.
+@;@examples[
+@;#:eval boxy-evalor
+@;(redex-check
+@; BoxyTypingL
+@; #:satisfying (type-infer Δ Γ v (□ A))
+@; (judgment-holds (type-infer Δ · v (□ A)))
+@; #:attempts 1000)
+@;]
+@;
+For example, we might check type safety: all closed well-typed expression
+evaluate to values.
 @examples[
-#:eval boxy-evalor
-(eval:alts
- (redex-check
-  BoxyTypingL
-  #:satisfying (type-infer Δ Γ v (□ A))
-  (judgment-holds (type-infer Δ · v (□ A)))
-  #:attempts 1000)
- (eval:result
-  ""
-  "redex-check: no counterexamples in 1000 attempts"))
-]
-@;margin-note{TODO: Bug in Redex}
-
-We might also check type-safety: all closed well-typed expression evaluate to
-values. @examples[
 #:eval boxy-evalor
 (redex-check
  BoxyTypingL
