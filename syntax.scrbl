@@ -85,7 +85,7 @@ As a convention, I usually end my language names with the letter "L".
 
 I usually start my models by requiring @racketmodname[redex/reduction-semantics]
 instead of @racketmodname[redex].
-The latter loads a bunch of GUI stuff I rarely use, and sometimes don't even install.
+The latter loads GUI stuff I rarely use, and sometimes don't even install.
 
 The @racket[define-language] form takes a language identifier, which is used by
 some functions to specify which grammar and binding specification to use,
@@ -96,12 +96,13 @@ definitions of substitution and α-equivalence.
 This language defines expression using meta-variable @redex{e}, which includes
 variables @redex{x}, natural numbers, cons pairs, λ, application, the box
 introduction form, and a pattern matching form for box elimination.
-It also define their types, as meta-variables @redex{A} and @redex{B}.
-Note that while productions need to be s-expressions, they need not be prefix.
+It also defines their types, as meta-variables @redex{A} and @redex{B}.
+Note that while productions need to be s-expressions, they need not be in prefix
+notation.
 Variables, @redex{x} and @redex{y}, are any symbol not used as a keyword or
 literal elsewhere in the grammar, @rtech{variable-not-otherwise-mentioned}.
 
-This essentially equivalent to the the grammar from the Coq model in
+This essentially equivalent to the grammar from the Coq model in
 @seclink["sec:preface"], but also fixes a representation of variables, and
 defines the metafunction @racket[substitute] and the Racket
 @racket[alpha-equivalent?] for @tech{BoxyL}.
@@ -159,8 +160,8 @@ In large developments, I sometimes create a base language with generic
 operations on syntax, using @rtech{any}.
 
 When in Racket, we use @racket[term] to inject syntax into Redex.
-@racket[term] acts like @racket[quasiquote], and even supports unquote so we can
-write use Racket to compute terms through templating.
+@racket[term] acts like @racket[quasiquote], and even supports unquote, so we
+can write use Racket to compute terms through templating.
 Most quoted s-expressions are also valid Redex terms, which can be useful if we
 want to move between s-expressions in Racket and terms in Redex.
 
@@ -216,8 +217,8 @@ For example, I could extend expressions with booleans literals as follows.
 
 This defines a new language, @deftech{BoxyBoolL}, which extends @tech{BoxyL}
 with an extra production in the nonterminal @redex{e}.
-To extend a nonterminal, I use @racket[....], which means "all of
-the current productions of this nonterminal", followed by the new productions.
+To extend a nonterminal, I use @racket[....], which means "all the current
+productions of this nonterminal", followed by the new productions.
 
 We can also add new nonterminals by extending a language.
 
@@ -309,10 +310,10 @@ expects a language identifier.}
 For testing equality of terms, we can use @racket[test-equal].
 @examples[
 #:eval boxy-evalor
-(test-equal (term (λ (x : Nat) y))  (term (λ (y : Nat) y))
+(test-equal (term (λ (x : Nat) y)) (term (λ (y : Nat) y))
             #:equiv alpha-equivalent?)
 (default-equiv alpha-equivalent?)
-(test-equal (term (λ (x : Nat) x))  (term (λ (y : Nat) y)))
+(test-equal (term (λ (x : Nat) x)) (term (λ (y : Nat) y)))
 (test-equal (term (substitute (λ (y : Nat) (x e2)) x (+ y 5)))
             (term (λ (z : Nat) ((+ y 5) e2))))
 (test-results)
@@ -406,7 +407,7 @@ Worse, when a term doesn't match a language nonterminal, metafunctions such as
 @examples[
 #:eval boxy-evalor
 (term (substitute (λ (y : A) (x e2)) x (+ y 5)))
-(alpha-equivalent? (term (λ (x : A) x))  (term (λ (y : A) y)))
+(alpha-equivalent? (term (λ (x : A) x)) (term (λ (y : A) y)))
 ]
 
 One should avoid this pattern, and be aware of it because you can do it
@@ -434,7 +435,7 @@ It has caused me problems.
 It bit me twice while writing this tutorial.
 
 Even when you manage to avoid this, @racket[term] simply quotes any symbol, so
-typos can result in valid terms, even if they do not match a nonterminal.
+typos can result in valid terms, although the term may not match a nonterminal.
 If you use contracts, which I strongly encourage and will use in the rest of
 this tutorial, this is less of a problem since the invalid quoted term will
 hopefully not match a nonterminal.
@@ -464,7 +465,7 @@ This result will be a mysterious failure.
 
 I'm not sure if unicode subscripts should be treated the same by Redex or not,
 but for now, I recommend never ever using unicode subscripts in Redex.
-I usually use TeX input mode, and have a hotkey for turning it on and off so I
+I usually use TeX input mode, and have a hotkey for turning it on and off, so I
 can type underscores.
 
 @footer-nav["sec:preface" "sec:eval"]

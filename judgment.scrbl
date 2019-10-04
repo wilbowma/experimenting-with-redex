@@ -93,7 +93,7 @@ The length of the horizontal line must be greater than 2 hyphens.
 
 The judgment definition also takes an optional contract delcaration and optional
 mode declaration.
-I also use a contract to help catch bugs, including some of the syntax pitfalls
+I also use a contract to help catch bugs, including some syntax pitfalls
 mentioned earlier.
 The mode lines requires either @racket[I] for an input or @racket[O] for an
 output position.
@@ -162,7 +162,7 @@ syntactically.
 
 I usually write my environments as snoc-lists, as we do on paper.
 Shadowing is structural, as on paper; I don't need to worry about freshness or
-anything, since Redex "Does The Right Thing (TM)" when deconstructing a binder
+anything, since Redex "Does The Right Thing™" when deconstructing a binder
 and putting it in the context.
 
 To define the type system, I usually give a well-moded algorithmic presentation
@@ -248,7 +248,7 @@ frankly they're hard to use and read.
 @;In BoxyL, the check judgment is trivial because there is no type-level
 @;computation or subtyping.
 
-Once I have a the type system, I can ask Redex to infer the types of expressions.
+Once I have a type system, I can ask Redex to infer the types of expressions.
 
 @examples[
 #:eval boxy-evalor
@@ -704,7 +704,7 @@ from grammars and try to fix them up, for example, by initializing mutual
 variables or by replacing ill-typed subexpressions with obviously well-typed ones.
 This doesn't scale particularly well.
 
-When all else fails there's
+When all else fails, there's
 @other-doc['(lib "quickcheck/scribblings/quickcheck.scrbl")].
 
 @footer-nav[

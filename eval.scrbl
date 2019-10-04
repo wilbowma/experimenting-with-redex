@@ -56,7 +56,7 @@ It requires a language identifier and a sequence of rewrite rules.
 The form also supports @emph{a lot} of optional and additional features, most of
 which I never use.
 I will commonly use @racket[#:domain] and @racket[#:codomain] to catch bugs,
-including some of the pitfalls mentioned in the last section.
+including some pitfalls mentioned in the last section.
 
 Below, I define the small-step reduction for @tech{BoxyL}.
 
@@ -108,7 +108,7 @@ For example, we can stop when we try to reduce @redex{(+ 1 2)}.
 @section{Evaluation and Normalization}
 To define full reduction, we can easily get the compatible closure of the
 relation with respect to a nonterminal.
-Redex will lift the small-step relation to apply any reduction any where in any
+Redex will lift the small-step relation to apply any reduction anywhere in any
 subexpression of the nonterminal.
 It's one line of code.
 
@@ -267,7 +267,7 @@ All @racket[compatible-closure] does is compute the obvious context of a given
 nonterminal and call @racket[context-closure].
 
 We can define the contexts manually, but this is extremely tedious.
-Thankfully, Redex exposes some of the internals of @racket[compatible-closure],
+Thankfully, Redex exposes some internals of @racket[compatible-closure],
 as @rtech{compatible-closure-context}, to let us compute the context we want.
 
 @examples[
