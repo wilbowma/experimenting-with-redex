@@ -266,6 +266,27 @@ size.
 It can generate terms based on lots of Redex definitions, although I almost
 always generate terms from grammars and judgments.
 
+@section{Syntax with Side Conditions}
+The Redex pattern language is very expressive, and one quite nice feature that
+is hard to find in the documentation is using @rtech{side-conditions} in
+grammar.
+I use this occassionally, particularly when modeling machine languages.
+For example, below I define a syntax with 64-bit integers.
+@examples[
+#:eval boxy-evalor
+(define-language Int64L
+  (int64 ::= (side-condition integer_1
+               (<= (expt -2 31) (term integer_1) (sub1 (expt 2 31))))))
+
+(redex-match? Int64L int64 4)
+(redex-match? Int64L int64 -5)
+(redex-match? Int64L int64 (expt 2 31))
+]
+
+The @rtech{side-condition} takes a pattern and a Racket predicate which can
+refer to the pattern variables.
+You can use a @rtech{side-condition} pattern anywhere in a pattern.
+
 @section{Testing Syntax}
 Once we're done querying, we can move to testing.
 Redex features a unit testing library.
@@ -419,8 +440,5 @@ I'm not sure if unicode subscripts should be treated the same by Redex or not,
 but for now, I recommend never ever using unicode subscripts in Redex.
 I usually use TeX input mode, and have a hotkey for turning it on and off so I
 can type underscores.
-
-@;margin-note{TODO: side-conditions in grammar?}
-@;margin-note{TODO: Three levels: Racket, Redex, Object?}
 
 @footer-nav["sec:preface" "sec:eval"]
