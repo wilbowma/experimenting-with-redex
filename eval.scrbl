@@ -50,7 +50,7 @@ In most cases I encounter, Redex can easily compute the various mutual contexts
 with a couple of calls to @rtech{compatible-closure-context}, and then give my
 the full reduction relation using @racket[context-closure].
 
-@section{Reduction Relations for BoxyL}
+@section{Small-step Reduction}
 In Redex, reduction relations are defined using @racket[reduction-relation].
 It requires a language identifier and a sequence of rewrite rules.
 The form also supports @emph{a lot} of optional and additional features, most of
@@ -105,6 +105,7 @@ For example, we can stop when we try to reduce @redex{(+ 1 2)}.
                 (redex-match? BoxyL (+ 1 2) term)))
 ]
 
+@section{Evaluation and Normalization}
 To define full reduction, we can easily get the compatible closure of the
 relation with respect to a nonterminal.
 Redex will lift the small-step relation to apply any reduction any where in any

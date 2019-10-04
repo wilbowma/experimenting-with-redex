@@ -60,7 +60,7 @@ Second, ellipses and Racket escapes are a double-edged sword.
 While they make defining judgments much easier, they also prevent Redex from
 generating terms that satisfy the judgment.
 
-@section{βη-equality for BoxyL}
+@section{βη-equality Judgment}
 The first judgment I usually define is an equivalence judgment for expressions.
 I will usually extend the normalization relation to an
 equivalence relation, sometimes including η-equivalence.
@@ -145,7 +145,7 @@ easily lead to the symbols-interpreted-as-variables problem, but
      (λ (x : Nat) ((f 5) x)))))
 ]
 
-@section{Typing for BoxyL}
+@section{Typing Judgment}
 The next judgments I define are the typing judgments.
 This usually requires an extension to the language to define environments,
 syntactically.

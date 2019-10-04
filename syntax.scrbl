@@ -56,7 +56,7 @@ This is made worse since TeX input mode will transparently replace the second
 expression with the first.
 DrRacket has better LaTeX input that avoids this problem by default.
 
-@section{The Syntax of BoxyL}
+@section{Defining Syntax}
 In Redex, we start defining the syntax of a language with the
 @racket[define-language] form.
 Below is the syntax for the lanugage @deftech{BoxyL}, the simply-typed λ-calculus
@@ -88,17 +88,6 @@ and BNF-esque grammar, in s-expression notation.
 After the grammar, I give a binding specification, from which Redex infers
 definitions of substitution and α-equivalence.
 
-@nested[#:style 'inset]{
-@subsubsub*section{Binding Forms Digression}
-My favorite feature of Redex is automatic handling of named binders.
-In this tutorial, I give only the simplest possible use of
-@rtech{binding forms}: a single, lexical name.
-But Redex's support for binding is extremely sophisticated.
-It can support n-ary lexical binding with shadowing, pattern-matching style
-binding, module-style binding.
-See @rtech{binding forms} in the Redex docs to the many examples of complex binding support.
-}
-
 This language defines expression using meta-variable @redex{e}, which includes
 variables @redex{x}, natural numbers, cons pairs, λ, application, the box
 introduction form, and a pattern matching form for box elimination.
@@ -112,6 +101,7 @@ This essentially equivalent to the the grammar from the Coq model in
 defines the metafunction @racket[substitute] and the Racket
 @racket[alpha-equivalent?] for @tech{BoxyL}.
 
+@section{Pattern Matching}
 Redex has a sophisticated formal pattern language, but in essense any symbols not
 recognized as a BNF symbol is treated as a keyword.
 When I write @redex{(car e)} in the grammar, this is understood to mean the
@@ -187,6 +177,7 @@ But @racket[redex-let] requires a deterministic single match.
   (displayln (term e_2)))
 ]
 
+@section{Extending Syntax and Syntax with Holes (Contexts)}
 Redex syntax also support @emph{contexts}, that is, programs with a hole.
 I use this for evaluation and program contexts, such as defined below.
 @examples[
@@ -217,6 +208,7 @@ context and its redex.
   (displayln (term (in-hole E 3))))
 ]
 
+@section{Binding, Substitution, and α-equivalence}
 Probably @emph{the} winning feature in Redex for me is automagic handling of
 binding.
 After 11 lines of code, binding is completely solved.
@@ -231,6 +223,14 @@ named identifiers}.
 (term (substitute (λ (y : Nat) (x e2)) x (+ y 5)))
 ]
 
+In this tutorial, I give only the simplest possible use of
+@rtech{binding forms}: a single, lexical name.
+But Redex's support for binding is extremely sophisticated.
+It can support n-ary lexical binding with shadowing, pattern-matching style
+binding, module-style binding.
+See @rtech{binding forms} in the Redex docs to the many examples of complex binding support.
+
+@section{Random Generation of Syntax}
 Finally, we can generate terms from the grammar.
 This is helpful for random testing of meta-theory, and generating examples.
 @examples[
