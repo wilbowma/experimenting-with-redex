@@ -377,12 +377,6 @@ set of derivations given by @racket[build-derivations].
 @examples[
 #:eval boxy-evalor
 (require racket/set)
-(define (check-moded-derivation d)
-  (set-member?
-   ; Sometimes you just need an awful hack
-   (eval `(build-derivations ,(derivation-term d)))
-   d))
-
 (set-member?
  (build-derivations (type-infer (· (x : Nat)) · (box x) (□ Nat)))
  (derivation
