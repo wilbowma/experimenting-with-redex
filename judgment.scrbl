@@ -462,7 +462,7 @@ Unfortunately, there is no built-in way to check judgments for moded judgments.
 @margin-note{Below, I define @racket[test-derivation], and am working on merging
 it into Redex.}
 
-@section{Random Generation of Derivations and Meta-theory Random-testing}
+@section{Meta-theory Random-testing}
 After I have some judgments, I can start generating terms from judgments.
 For example, we can generate well-typed terms.
 @examples[
