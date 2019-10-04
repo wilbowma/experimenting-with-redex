@@ -200,7 +200,7 @@ to reduce a term to another term.
 (test-results)
 ]
 Unlike the other test functions, @racket[test-->>∃] does not take an
-@racket[#:equiv] optional parameter, and doesn't obey @racket[default-equiv].
+@racket[#:equiv] optional argument, and doesn't obey @racket[default-equiv].
 Instead, the second term can be either a value or a predicate.
 @margin-note{This may change soon because I'm about to file a pull request.}
 

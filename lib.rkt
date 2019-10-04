@@ -52,4 +52,7 @@
 (define (rtech . x)
   (apply tech x #:doc '(lib "redex/redex.scrbl")))
 
+(define (gtech . x)
+  (apply tech x #:doc '(lib "scribblings/guide/guide.scrbl")))
+
 (define redex racketplainfont)

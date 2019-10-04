@@ -602,7 +602,7 @@ It merely fails and returns @racket[#f] or @racket['()].
 When it appears that a judgment ought to hold, this can be extremely frustrating
 to debug.
 
-We can use the parameter @racket[current-traced-metafunctions] to ask Redex's to
+We can use the @gtech{parameter} @racket[current-traced-metafunctions] to ask Redex's to
 print its trace of the search through the judgment.
 This is essentially a fancy version of printf debugging, but works well for
 small derivations.

@@ -33,8 +33,10 @@ because then I have to remember too many language identifiers.
 I use @racket[redex-match?], @racket[redex-match], and @racket[redex-let] to
 query whether expressions match nonterminals and to let Redex decompose syntax
 for me.
-I use @racket[test-predicate], @racket[test-equal], @racket[default-equiv], and
-@racket[test-results] for writing test suites about syntax.
+I use the test functions @racket[test-predicate], @racket[test-equal],
+@racket[test-results], and the @gtech{parameter} @racket[default-equiv], for
+writing test suites about syntax, and @racket[redex-check] to do random testing
+of syntactic properties.
 
 One caveat to be aware of is that grammars with @rtech{side conditions}, while
 very expressions, prevent @racket[redex-check] from working over the grammar.
@@ -317,7 +319,8 @@ For testing equality of terms, we can use @racket[test-equal].
 ]
 @racket[test-equal] takes two expressions, and optionally, an equivalence
 predicate.
-The equivalence defaults to the value of the parameter @racket[default-equiv].
+The equivalence defaults to the value of the @gtech{parameter}
+@racket[default-equiv].
 
 We can use @racket[redex-check] to do random testing of syntactic properties.
 For example, all values ought to be expressions.
