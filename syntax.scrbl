@@ -178,8 +178,26 @@ But @racket[redex-let] requires a deterministic single match.
 ]
 
 @section{Extending Syntax and Syntax with Holes (Contexts)}
-Redex syntax also support @emph{contexts}, that is, programs with a hole.
-I use this for evaluation and program contexts, such as defined below.
+@racket[define-extended-language] allows extending a base language with new
+nonterminals, or extending existing nonterminals from the base language with new
+productions.
+For example, I could extend expressions with booleans literals as follows.
+
+@examples[
+#:eval boxy-evalor
+(define-extended-language BoxyBooL BoxyL
+  (e ::= .... boolean))
+
+(redex-match? BoxyBool e (term #t))
+]
+
+This defines a new language, @deftech{BoxyBoolL}, which extends @tech{BoxyL}
+with an extra production in the nonterminal @redex{e}.
+To extend a nonterminal, I use @racket[....], which means "all of
+the current productions of this nonterminal", followed by the new productions.
+
+We can also add new nonterminals by extending a language.
+
 @examples[
 #:eval boxy-evalor
 (define-extended-language BoxyEvalL BoxyL
@@ -187,14 +205,14 @@ I use this for evaluation and program contexts, such as defined below.
          (let ((box x) E) e)))
 ]
 
-@racket[define-extended-language] allows extending a base language with new
-nonterminals, or extending existing nonterminals from the base language with new
-productions.
 This defines a new language, @deftech{BoxyEvalL}, which extends @tech{BoxyL}
 with a call-by-value evaluation context.
-We specify it by listing all the cases.
+Redex syntax also support @emph{contexts}, that is, programs with a hole.
+I use this for evaluation and program contexts.
+In this language, we define the context @redex{E} by listing the usual
+evaluation contexts for call-by-value.
 For operators with many arguments, we can easily specify left-to-right
-evaluation order using non-deterministic ellipses pattern.
+evaluation order using non-deterministic ellipses patterns.
 
 After specifying a context, we can easily decompose a term into its evaluation
 context and its redex.
