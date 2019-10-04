@@ -514,31 +514,29 @@ It merely fails and returns @racket[#f] or @racket['()].
 When it appears that a judgment ought to hold, this can be extremely frustrating
 to debug.
 
-My normal mode of debugging is to add @racket[printf]s as side-conditions, to
-trace Redex's search and see where it stops.
+We can use the parameter @racket[current-traced-metafunctions] to ask Redex's to
+print its trace of the search through the judgment.
+This is essentially a fancy version of printf debugging, but works well.
 
 @examples[
 #:eval boxy-evalor
 (define-judgment-form BoxyTypingL
   #:mode (type-debug I I I O)
 
-  [(side-condition ,(printf "~a Nat rule~n" (term natural)))
-   -------------- "Nat"
+  [-------------- "Nat"
    (type-debug Δ Γ natural Nat)]
 
-  [(side-condition ,(printf "~a Plus rule~n" (term (+ e_1 e_2))))
-   (type-debug Δ Γ e_1 Nat)
-   (side-condition ,(printf "~a Plus premise 1~n" (term e_1)))
+  [(type-debug Δ Γ e_1 Nat)
    (type-debug Δ Γ e_2 Nat)
-   (side-condition ,(printf "~a Plus premise 2~n" (term e_2)))
    -------------- "Plus"
    (type-debug Δ Γ (+ e_1 e_2) Nat)])
 
-(judgment-holds (type-debug · · (+ 5 (car (cons 5 1))) Nat))
+(parameterize ([current-traced-metafunctions '(type-debug)])
+  (judgment-holds (type-debug · · (+ 5 (car (cons 5 1))) Nat)))
 ]
 
-Now we know that the sub-derivation that failed is the second premise of the
-@racket["Plus"] rule.
+Now we know that the sub-derivation that failed is in the premise for
+@racket[+] with the sub-expressions @racket[(car (cons 5 1))].
 
 Recently, Redex added support for unmoded judgments and the ability to manually
 specify a derivation, and check whether it is valid.
