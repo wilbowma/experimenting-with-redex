@@ -204,7 +204,7 @@ Unlike the other test functions, @racket[test-->>∃] does not take an
 Instead, the second term can be either a value or a predicate.
 @margin-note{This may change soon because I'm about to file a pull request.}
 
-@section{A Caveat: Compatible Closure of Mutually Defined Relations}
+@section{Caveat: Compatible Closure of Mutually Defined Relations}
 The @racket[compatible-closure] functions doesn't work when we have expressions whose
 syntax is mutually defined, since @racket[compatible-closure] requires a single
 nonterminal.

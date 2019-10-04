@@ -561,7 +561,7 @@ This usually doesn't indicate a problem, and you should just increase the number
 of attempts.
 You can also use @racket[#:prepare] to try to fix up generated examples.
 
-@section{A Pitfall: Using the Wrong Language Name}
+@section{Pitfall: Using the Wrong Language Name}
 While using @racket[define-extended-language] is nice for modularizing syntax
 and for pedagogical presentations, I rarely use it in practice.
 It's very easy to use the wrong language identifier when defining judgments, and
@@ -596,7 +596,7 @@ assume you meant that nonterminal as a symbol, and silently fail to hold.
 (judgment-holds (type-wrong^ · · 5 Nat))
 ]
 
-@section{A Caveat: Debugging Judgments}
+@section{Caveat: Debugging Judgments}
 When a judgment doesn't hold, Redex does not give you any help.
 It merely fails and returns @racket[#f] or @racket['()].
 When it appears that a judgment ought to hold, this can be extremely frustrating
@@ -627,7 +627,7 @@ small derivations.
 Now we know that the sub-derivation that failed is in the premise for
 @racket[+] with the sub-expressions @racket[(car (cons 5 1))].
 
-@section{A Caveat: Ellipses and Racket Escapes}
+@section{Caveat: Ellipses and Racket Escapes}
 The Redex pattern language supports ellipses matching on sequences of patterns.
 This is extremely convenient and matches common on-paper vector notation.
 Unfortunately, it also completely defeats Redex term generation, so you cannot

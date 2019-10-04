@@ -439,7 +439,7 @@ If you use contracts, which I strongly encourage and will use in the rest of
 this tutorial, this is less of a problem since the invalid quoted term will
 hopefully not match a nonterminal.
 
-@section{A Pitfall: Subscripts and Unicode}
+@section{Pitfall: Subscripts and Unicode}
 Redex makes it very easy to mix unicode into your formal syntax.
 This is handy, since the code looks closer to the paper presentation.
 Unfortunatley, it can cause problems if you're using unicode subscripts or TeX
