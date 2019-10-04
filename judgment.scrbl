@@ -631,6 +631,32 @@ small derivations.
 Now we know that the sub-derivation that failed is in the premise for
 @racket[+] with the sub-expressions @racket[(car (cons 5 1))].
 
+For large judgments and derivations, this method does not work well.
+Instead, you may want to only observe certain rules.
+The best method I've found for doing this is inserting @racket[printf]s as
+@rtech{side-conditions}.
+
+@examples[
+#:eval boxy-evalor
+(define-judgment-form BoxyTypingL
+  #:mode (type-debug^ I I I O)
+
+  [-------------- "Nat"
+   (type-debug^ Δ Γ natural Nat)]
+
+  [(type-debug^ Δ Γ e_1 Nat)
+   (side-condition ,(printf "Plus premise one held for ~a~n" (term e_1)))
+   (type-debug^ Δ Γ e_2 Nat)
+   (side-condition ,(printf "Plus premise two held for ~a~n" (term e_2)))
+   -------------- "Plus"
+   (type-debug^ Δ Γ (+ e_1 e_2) Nat)])
+
+(judgment-holds (type-debug^ · · (+ 5 (car (cons 5 1))) Nat))
+]
+
+Recall that @rtech{side-conditions} in judgment forms must unquote to use Racket
+expressions.
+
 @section{Caveat: Ellipses and Racket Escapes}
 The Redex pattern language supports ellipses matching on sequences of patterns.
 This is extremely convenient and matches common on-paper vector notation.
