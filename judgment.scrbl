@@ -540,62 +540,65 @@ Now we know that the sub-derivation that failed is in the premise for
 
 Recently, Redex added support for unmoded judgments and the ability to manually
 specify a derivation, and check whether it is valid.
-I have yet to use this feature, but I imagine it will make debugging judgment
-failures somewhat easier.
+I have yet to use this feature in practice, but I imagine it will make debugging
+judgment failures somewhat easier.
+Often when this hapepns, I'm convinced that there is a derivation.
+With the ability to write the derivation and have Redex tell me why the
+derivation is wrong, Redex can tell me exactly why I'm wrong.
 
 @examples[
 #:eval boxy-evalor
-(define-judgment-form BoxyTypingL
-
-  [-------------- "Nat"
-   (type-debug^ Δ Γ natural Nat)]
-
-  [
-   (type-debug^ Δ Γ e_1 Nat)
-   (type-debug^ Δ Γ e_2 Nat)
-   -------------- "Plus"
-   (type-debug^ Δ Γ (+ e_1 e_2) Nat)])
-
 (require (for-syntax racket/base syntax/parse))
-(define-syntax (check-derivation stx)
-  (syntax-parse stx
-    [(_ name:id d)
-     #`(let ([f (lambda (x) (judgment-holds name x))]
-             [x d])
-         (derivation-checker f x))]))
-
-(define (derivation-checker f d)
+(define (check-modeless-derivation d)
+  (eval `(judgment-holds ,(car (derivation-term d)) ,d)))
+(require racket/pretty)
+(define (test-derivation f d)
+  (define (raise-derivation-error d)
+    (error
+     'test-derivation
+     "invalid (sub)derivation~n  judgment:~n    ~a~n  derivation:~n    ~a"
+     (pretty-format (derivation-term d)) (pretty-format d)))
   (let ([ls (derivation-subs d)])
     (if (null? ls)
         (f d)
         (begin
           (for ([d ls])
-            (unless (derivation-checker f d)
-              (error 'check-derivation "sub-derivation ~a failed!" d)))
+            (unless (test-derivation f d)
+              (raise-derivation-error d)))
           (unless (f d)
-            (error 'check-derivation "sub-derivation ~a failed!" d))))))
+            (raise-derivation-error d))))))
 
 (define proof
   (derivation
-   `(type-debug^ · · (+ 5 (car (cons 5 1))))
+   `(type-debug · · (+ 5 (car (cons 5 1))) Nat)
    "Plus"
    (list
-    (derivation `(type-debug^ · · 5 Nat) "Nat"  '())
-    (derivation `(type-debug^ · · (car (cons 5 1)) Nat) "Cons" '()))))
+    (derivation `(type-debug · · 5 Nat) "Nat"  '())
+    (derivation `(type-debug · · (car (cons 5 1)) Nat) "Cons" '()))))
 
-(judgment-holds type-debug^ proof)
+(check-moded-derivation proof)
 
-(eval:error (check-derivation type-debug^ proof))
-(eval:error (check-derivation
-             type-debug^
+(eval:error (test-derivation check-moded-derivation proof))
+code:blank
+(eval:error (test-derivation
+             check-modeless-derivation
              (derivation
-              `(type-debug^ · · (+ 5 (car (cons 5 1))))
+              `(type · · (+ 5 (car (cons 5 1))) Nat)
               "Plus"
               (list
-               (derivation `(type-debug^ · · 5 Nat) "Nat"  '())
-               (derivation `(type-debug^ · · (car (cons 5 1)) Nat) "Nat" '())))))
+               (derivation `(type · · 5 Nat) "Nat"  '())
+               (derivation `(type · · (car (cons 5 1)) Nat) "Nat" '())))))
+(eval:error (test-derivation
+             check-modeless-derivation
+             (derivation
+              `(type · · (+ 5 (car (cons 5 1))) Nat)
+              "T-Plus"
+              (list
+               (derivation `(type · · 5 Nat) "T-Nat"  '())
+               (derivation `(type · · (car (cons 5 1)) Nat) "T-Nat" '())))))
+
 ]
-@margin-note{@racket[check-derivation] may get merged in to Redex soon.}
+@margin-note{@racket[test-derivation] may get merged in to Redex soon.}
 
 @section{A Caveat: Ellipses and Racket Escapes}
 The Redex pattern language supports ellipses matching on sequences of patterns.
