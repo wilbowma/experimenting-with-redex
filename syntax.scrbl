@@ -137,6 +137,21 @@ anything else is.
 (redex-match? BoxyL x (term lambda))
 ]
 
+One of the important built-in pattersn that I use frequently is @racket[any],
+which matches any s-expression.
+@examples[
+#:eval boxy-evalor
+(redex-match? BoxyL any (term car))
+(redex-match? BoxyL (any_1 any_1) (term (car car)))
+(redex-match? BoxyL any (term kar))
+(redex-match? BoxyL any (term :))
+]
+
+The @racket[any] pattern can be useful for defining generic metafunctions,
+grammars, and judgments, or to partially specify contracts on Redex definitions.
+In large developments, I sometimes create a base language with generic
+operations on syntax, using @racket[any].
+
 When in Racket, we use @racket[term] to inject syntax into Redex.
 @racket[term] acts like @racket[quasiquote], and even supports unquote so we can
 write use Racket to compute terms through templating.
