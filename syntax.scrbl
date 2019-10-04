@@ -185,10 +185,13 @@ For example, I could extend expressions with booleans literals as follows.
 
 @examples[
 #:eval boxy-evalor
-(define-extended-language BoxyBooL BoxyL
+(define-extended-language BoxyBoolL BoxyL
   (e ::= .... boolean))
 
-(redex-match? BoxyBool e (term #t))
+(redex-match? BoxyL e (term #t))
+(redex-match? BoxyL e (term (car #t)))
+(redex-match? BoxyBoolL e (term #t))
+(redex-match? BoxyBoolL e (term (car #t)))
 ]
 
 This defines a new language, @deftech{BoxyBoolL}, which extends @tech{BoxyL}
