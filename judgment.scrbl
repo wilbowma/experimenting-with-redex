@@ -465,6 +465,14 @@ evaluate to values.
  #:attempts 1000)
 ]
 
+Redex will report how many successful attempts it made, and how many failed
+generations.
+Redex can fail to find a good derivation a lot of the time, due annoying
+internal details.
+This usually doesn't indicate a problem, and you should just increase the number
+of attempts.
+You can also use @racket[#:prepare] to try to fix up generated examples.
+
 @section{A Pitfall: Using the Wrong Language Name}
 While using @racket[define-extended-language] is nice for modularizing syntax
 and for pedagogical presentations, I rarely use it in practice.
