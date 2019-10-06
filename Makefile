@@ -13,4 +13,4 @@ pdf: *.scrbl *.tex
 	scribble --pdf  --redirect-main "https://docs.racket-lang.org" ++xref-in setup/xref load-collections-xref experimenting.scrbl
 
 sync:
-	rsync -avz --exclude '*.js' --delete-excluded --delete experimenting/* http@wjb:www/tmp/redex-tutorial/
+	rsync -avz --exclude '*.js' --delete-excluded --delete experimenting/* http@wjb:www/doc/experimenting-with-redex/
