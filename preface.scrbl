@@ -67,7 +67,7 @@ When working with judgments, I am interested in questions like:
 @item{Does this expression have this property?}
 @item{Do all expressions of this form have this property?}
 ]
-Again, I don't want to prove my judgment is sensible in anyway.
+Again, I don't want to prove my judgment is sensible in any way.
 Most tools put far too many restrictions on the kinds of judgments I write.
 I don't want to be forced to write derivations by hand.
 I just want to say "can you find a derivation, computer?", and have that be
