@@ -144,7 +144,7 @@ anything else is.
 (redex-match? BoxyL x (term lambda))
 ]
 
-One of the important built-in pattersn that I use frequently is @rtech{any},
+One of the important built-in patterns that I use frequently is @rtech{any},
 which matches any s-expression.
 @examples[
 #:eval boxy-evalor
