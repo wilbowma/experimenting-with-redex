@@ -47,7 +47,7 @@ In this case, we must manually give the mutually defined contexts for which we
 Thankfully, Redex exposes the function @rtech{compatible-closure-context} for
 computing common contexts.
 In most cases I encounter, Redex can easily compute the various mutual contexts
-with a couple of calls to @rtech{compatible-closure-context}, and then give my
+with a couple of calls to @rtech{compatible-closure-context}, and then give me
 the full reduction relation using @racket[context-closure].
 
 @section{Small-step Reduction}
