@@ -190,7 +190,7 @@ convince reviewers to accept my paper.
 As I will show in the rest of this tutorial, with Redex, I can go from nothing
 to a model that computes in minutes and 10s of lines of code.
 A Redex model is nearly identical to what I write on paper, so it's almost
-completley intuitive (assuming a formal programming languages background).
+completely intuitive (assuming a formal programming languages background).
 Redex tries hard to do what you mean, which is what I want when experimenting.
 I save a ton of time by letting Redex generate and check examples, and run the
 computations.
