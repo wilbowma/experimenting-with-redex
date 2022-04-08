@@ -43,7 +43,7 @@ very expressions, prevent @racket[redex-check] from working over the grammar.
 
 There are two common pitfalls to avoid when working with syntax in Redex.
 
-First, be careful about using untagged, arbtirary variables, such as by using
+First, be careful about using untagged, arbitrary variables, such as by using
 @rtech{variable} or @rtech{variable-not-otherwise-mentioned} in your syntax
 definition.
 This makes it really easy to create arbitrary variable names, but also easy to
