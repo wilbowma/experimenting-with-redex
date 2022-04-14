@@ -38,8 +38,8 @@ I use the test functions @racket[test-predicate], @racket[test-equal],
 writing test suites about syntax, and @racket[redex-check] to do random testing
 of syntactic properties.
 
-One caveat to be aware of is that grammars with @rtech{side conditions}, while
-very expressions, prevent @racket[redex-check] from working over the grammar.
+One caveat to be aware of is that grammars with @rtech{side conditions} prevent
+@racket[redex-check] from working over the grammar.
 
 There are two common pitfalls to avoid when working with syntax in Redex.
 
