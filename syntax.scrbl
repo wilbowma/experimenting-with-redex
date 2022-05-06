@@ -13,7 +13,7 @@ This is exactly what we do on paper in programming languages research.
 
 After I have defined a syntax, Redex can do the following things for me:
 @itemize[
-@item{decide whether an s-expressions matches a BNF nonterminal}
+@item{decide whether an s-expression matches a BNF nonterminal}
 @item{decompose a term via pattern matching}
 @item{decide α-equivalence of two terms}
 @item{perform substitution}
@@ -417,7 +417,7 @@ invalid term, or a valid term that isn't what we expected.
 
 @examples[
 #:eval boxy-evalor
-(redex-match? BoxyL e (term (subtsitute (λ (y : Nat) (x e2)) x (+ y 5))))
+(redex-match? BoxyL e (term (substitute (λ (y : Nat) (x e2)) x (+ y 5))))
 (redex-match? BoxyL e (term (λ (y : nat) (x e2))))
 (redex-match? BoxyL e (term (kar (cons e_1 e_2))))
 ]
